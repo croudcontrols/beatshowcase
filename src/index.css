@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles below */
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-gray-50;
+}
+
+/* Progress bar styles */
+.progress-bar {
+  @apply h-full bg-indigo-600;
+  transition: width 0.3s ease;
+} 

@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow authenticated users to read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /users/{userId}/beats/{beatId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /users/{userId}/showcases/{showcaseId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Public templates can be read by anyone but only written by admins
+    match /templates/{templateId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)/roles/admin);
+    }
+  }
+}
